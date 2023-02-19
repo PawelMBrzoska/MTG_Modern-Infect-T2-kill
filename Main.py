@@ -19,14 +19,18 @@ class Game:
         self.dmg_3 = int
         self.dmg_4 = int
         self.scale_up = bool
+        self.assault_strobe = bool
+        self.doublestrike = bool
         self.t2_damage = int 
         self.hex = int
         self.g_mana = int
         self.u_mana = int
+        self.r_mana = int
         self.total_mana = int
 
     def __str__(self):
-        return f"Game: Elf = {self.elf}, Total poison in T2 = {self.t2_damage}, Total mana = {self.total_mana} including {self.g_mana} green mana"
+        return f"""Game: Elf = {self.elf}, double strike = {self.doublestrike}, Total poison in T2 = {self.t2_damage}, 
+                Total mana = {self.total_mana} including {self.g_mana} green mana and {self.r_mana} red mana"""
 
 
 class Test:
@@ -47,7 +51,7 @@ class Test:
         return f"""With this deck without mulligans you should win {self.win} out of {self.games} games. This is {ratio_win}%.
                 In {ratio_elf}% games you have T1 elf - so potential to up to {ratio_elf}% of wins in t2 :p
                 Plans have been thwarted by manascrew {self.manascrew} times ({ratio_manascrew }%) 
-                and {self.pumpscrew} bt pumps shortage ({ratio_pumpscrew}%)"""
+                and {self.pumpscrew} by pumps shortage ({ratio_pumpscrew}%)"""
     
 
 
@@ -86,10 +90,13 @@ def Game_reset(game):
     game.dmg_3 = 0
     game.dmg_4 = 0
     game.scale_up = False
+    game.assault_strobe = False
+    game.doublestrike = False
     game.t2_damage = 0 
     game.hex = 0
     game.g_mana = 0
     game.u_mana = 0
+    game.r_mana = 0
     game.total_mana = 0
     
 
@@ -106,29 +113,29 @@ def Start_test(test=Test()):
 
     return(test)
 
-def Game_go(test=Test(),i=int):
+def Game_go(test, i, handsize):
     Current_game = Game()
     for a in range(i):
         test.games += 1
         Current_game = Game_reset(Current_game)
-        Hand = Get_Hand(test.deck, 7)
+        Hand = Get_Hand(test.deck, handsize)
         Current_game = Game_setup(Hand,Current_game)
+
+        Current_game.t2_damage = converter.Get_Damage(Current_game)
+        if Current_game.doublestrike == True:
+            Current_game.t2_damage *= 2
 
         if Current_game.elf == True:
             test.elfs += 1
-            if Current_game.total_mana < 2:
-                test.manascrew += 1
+            if Current_game.t2_damage >= 10:
+                test.win += 1
             else:
-                if Current_game.t2_damage < 10:
+                if Current_game.total_mana < 2:
+                    test.manascrew += 1
+                else:
                     test.pumpscrew += 1
-        Current_game.t2_damage = converter.Get_Damage(Current_game)
-
-        if Current_game.t2_damage >= 10:
-           test.win += 1
-    
-        test.poison.append(Current_game.t2_damage)
-        print(Current_game)
-        print(Hand)
+        
+        test.poison.append(Current_game.t2_damage)       
     print("done")
     return(test)
 
@@ -136,7 +143,7 @@ def Game_go(test=Test(),i=int):
 Test1 = Test()
 Test1 = Start_test(Test1)
 
-Test1 = Game_go(Test1,10000)
+Test1 = Game_go(Test1,i = 10000, handsize = 7) # Test object, number of itterations, handsize
 
 # Printing the results of the test. 
 print(Test1)
@@ -144,6 +151,5 @@ print(Test1)
 pd.Series(Test1.poison).value_counts().sort_index().plot(kind='bar')
 plt.show()
 
-exit()
 
 
