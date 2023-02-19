@@ -1,6 +1,7 @@
 # Main of MTG Modern Infect T2 kill chance calculator
 import random
 import pandas as pd
+import matplotlib.pyplot as plt
 import os
 import sys
 import converter
@@ -9,25 +10,45 @@ import converter
 os.chdir(os.path.dirname(sys.argv[0]))
 
 class Game:
-    def __init__(self, elf=bool, t2_damage=int, G_mana=int, U_mana=int, Total_mana=int):
-        self.elf = False
-        self.t2_damage = 0 
-        self.G_mana = 0
-        self.U_mana = 0
-        self.Total_mana = 0
+    def __init__(self):
+        self.elf = bool()
+        self.dmg_1 = int
+        self.dmg_2 = int
+        self.dmg_2_free = int
+        self.dmg_2_Groundswell = int
+        self.dmg_3 = int
+        self.dmg_4 = int
+        self.scale_up = bool
+        self.t2_damage = int 
+        self.hex = int
+        self.g_mana = int
+        self.u_mana = int
+        self.total_mana = int
 
     def __str__(self):
-        return f"Game: Elf = {self.elf}, Total poison in T2 = {self.t2_damage}, Total mana = {self.Total_mana} including {self.G_mana} green mana"
+        return f"Game: Elf = {self.elf}, Total poison in T2 = {self.t2_damage}, Total mana = {self.total_mana} including {self.g_mana} green mana"
+
 
 class Test:
-    def __init__(self, deck=None, win=int, games=int):
+    def __init__(self, deck=None):
         self.deck = deck
-        self.win = win
-        self.games = games
+        self.win = int
+        self.elfs = int
+        self.games = int
+        self.poison = []
+        self.manascrew = int
+        self.pumpscrew = int
 
     def __str__(self):
-        ratio = (self.win/self.games)*100
-        return f"With this deck without mulligans you should win {self.win} out of {self.games} games. This is {ratio}%"
+        ratio_win = (self.win/self.games)*100
+        ratio_elf = (self.elfs/self.games)*100
+        ratio_manascrew = (self.manascrew/self.games)*100
+        ratio_pumpscrew = (self.pumpscrew/self.games)*100
+        return f"""With this deck without mulligans you should win {self.win} out of {self.games} games. This is {ratio_win}%.
+                In {ratio_elf}% games you have T1 elf - so potential to up to {ratio_elf}% of wins in t2 :p
+                Plans have been thwarted by manascrew {self.manascrew} times ({ratio_manascrew }%) 
+                and {self.pumpscrew} bt pumps shortage ({ratio_pumpscrew}%)"""
+    
 
 
 def Get_Deck(file):
@@ -48,7 +69,7 @@ def Get_Hand(deck, cards):
     hand = random.choices(deck, k=cards)
     return(hand)
 
-def Game_setup(hand, game=Game()):
+def Game_setup(hand, game):
     #Itterating through hand to get the game stat
     for cards in hand:
         game = converter.Converter(cards, game) #Using external converter to update the state of the game.
@@ -56,19 +77,32 @@ def Game_setup(hand, game=Game()):
     return(game)
 
 # Resetting game
-def Game_reset(game=Game()):
+def Game_reset(game):
     game.elf = False
+    game.dmg_1 = 0
+    game.dmg_2 = 0
+    game.dmg_2_free = 0
+    game.dmg_2_Groundswell = 0
+    game.dmg_3 = 0
+    game.dmg_4 = 0
+    game.scale_up = False
     game.t2_damage = 0 
-    game.G_mana = 0
-    game.U_mana = 0
-    game.Total_mana = 0
+    game.hex = 0
+    game.g_mana = 0
+    game.u_mana = 0
+    game.total_mana = 0
+    
 
     return(game)
 
-def Start(test=Test()):
+def Start_test(test=Test()):
     test.deck = Get_Deck("Deck.txt")
     test.games=0
     test.win=0
+    test.elfs=0
+    test.poison = []
+    test.manascrew = 0
+    test.pumpscrew = 0
 
     return(test)
 
@@ -79,18 +113,37 @@ def Game_go(test=Test(),i=int):
         Current_game = Game_reset(Current_game)
         Hand = Get_Hand(test.deck, 7)
         Current_game = Game_setup(Hand,Current_game)
+
+        if Current_game.elf == True:
+            test.elfs += 1
+            if Current_game.total_mana < 2:
+                test.manascrew += 1
+            else:
+                if Current_game.t2_damage < 10:
+                    test.pumpscrew += 1
+        Current_game.t2_damage = converter.Get_Damage(Current_game)
+
         if Current_game.t2_damage >= 10:
            test.win += 1
-        print(Current_game)
     
+        test.poison.append(Current_game.t2_damage)
+        print(Current_game)
+        print(Hand)
+    print("done")
     return(test)
 
 # Creating a new test with 10 repetitions. I will creaete some more fancy GUI in few days (hopefully xD)
 Test1 = Test()
-Test1 = Start(Test1)
-Test1 = Game_go(Test1,10)
+Test1 = Start_test(Test1)
+
+Test1 = Game_go(Test1,10000)
 
 # Printing the results of the test. 
 print(Test1)
+
+pd.Series(Test1.poison).value_counts().sort_index().plot(kind='bar')
+plt.show()
+
+exit()
 
 

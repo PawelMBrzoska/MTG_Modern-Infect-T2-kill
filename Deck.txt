@@ -1,4 +1,3 @@
-2 Become Immense
 4 Blighted Agent
 4 Blossoming Defense
 1 Boseiju, Who Endures
@@ -8,17 +7,15 @@
 1 Dryad Arbor
 1 Forest
 4 Glistener Elf
-2 Groundswell
-2 Ignoble Hierarch
+4 Groundswell
 4 Inkmoth Nexus
 4 Might of Old Krosa
 4 Misty Rainforest
-3 Mutagenic Growth
-4 Noble Hierarch
+4 Mutagenic Growth
+4 Giantic Growth
 1 Pendelhaven
-3 Scale Up
+4 Scale Up
 2 Snakeskin Veil
-2 Spellskite
 4 Vines of Vastwood
 1 Waterlogged Grove
 2 Windswept Heath
