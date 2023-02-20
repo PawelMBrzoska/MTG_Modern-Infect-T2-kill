@@ -1,10 +1,10 @@
 # Converter. Convert specific card to a game state
 
-
+import classes
 
 #Converting decklist to object readable by other functions using the CONVERTER dictionary
 def Converter(card, game):
-    from Main import Game
+    
 
     #Lands
 
