@@ -153,3 +153,6 @@ cython_debug/
 
 # Notebooks
 * .ipynb
+
+# Bash files
+.bat

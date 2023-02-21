@@ -1,5 +1,4 @@
 # Main of MTG Modern Infect T2 kill chance calculator
-import random
 import pandas as pd
 import matplotlib.pyplot as plt
 import os
@@ -24,85 +23,16 @@ def Get_Deck(file):
     #Saving is as a list to pass it to convertet
     return(deck)
 
-def Get_Hand(deck, cards):
-    hand = random.choices(deck, k=cards)
-    return(hand)
 
-def Game_setup(hand, game):
-    #Itterating through hand to get the game stat
-    for cards in hand:
-        game = converter.Converter(cards, game) #Using external converter to update the state of the game.
+Deck = Get_Deck("Deck.txt")
 
-    return(game)
-
-# Resetting game
-def Game_reset(game):
-    game.elf = False
-    game.dmg_1 = 0
-    game.dmg_2 = 0
-    game.dmg_2_free = 0
-    game.dmg_2_Groundswell = 0
-    game.dmg_3 = 0
-    game.dmg_4 = 0
-    game.scale_up = False
-    game.assault_strobe = False
-    game.doublestrike = False
-    game.t2_damage = 0 
-    game.hex = 0
-    game.g_mana = 0
-    game.u_mana = 0
-    game.r_mana = 0
-    game.total_mana = 0
-    
-
-    return(game)
-
-def Start_test(test):
-    test.deck = Get_Deck("Deck.txt")
-    test.games=0
-    test.win=0
-    test.elfs=0
-    test.poison = []
-    test.manascrew = 0
-    test.pumpscrew = 0
-
-    return(test)
-
-def Game_go(test, i, handsize):
-    Current_game = classes.Game()
-    for a in range(i):
-        test.games += 1
-        Current_game = Game_reset(Current_game)
-        Hand = Get_Hand(test.deck, handsize)
-        Current_game = Game_setup(Hand,Current_game)
-
-        Current_game.t2_damage = converter.Get_Damage(Current_game)
-        if Current_game.doublestrike == True:
-            Current_game.t2_damage *= 2
-
-        if Current_game.elf == True:
-            test.elfs += 1
-            if Current_game.t2_damage >= 10:
-                test.win += 1
-            else:
-                if Current_game.total_mana < 2:
-                    test.manascrew += 1
-                else:
-                    test.pumpscrew += 1
-        
-        test.poison.append(Current_game.t2_damage)       
-    print("done")
-    return(test)
-
-# Creating a new test with 10 repetitions. I will creaete some more fancy GUI in few days (hopefully xD)
+# Start simulation #1
 Test1 = classes.Test()
-Test1 = Start_test(Test1)
-
-Test1 = Game_go(Test1,i = 10000, handsize = 7) # Test object, number of itterations, handsize
+Test1.Start_test(Deck)
+Test1.Test_go(i = 10000, handsize = 7) # Test object, number of itterations, handsize
 
 # Printing the results of the test. 
 print(Test1)
-
 pd.Series(Test1.poison).value_counts().sort_index().plot(kind='bar')
 plt.show()
 
