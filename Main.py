@@ -23,18 +23,34 @@ def Get_Deck(file):
     #Saving is as a list to pass it to convertet
     return(deck)
 
+def Start(wait, Test, Deck):
+    while wait == True:
+        try:
+            i = int(input("How many itterations you want to make during the test? (Suggesting: 10.000)"))
+        except ValueError:
+            print("Itteration number have to be a positive whole number.")
+            continue
+        
+        try:
+            handsize = int(input("How many cards in hand? (Suggesting: 7)"))
+        except ValueError:
+            print("Card number in hand have to be a positive whole number.")
+            continue
 
-Deck = Get_Deck("Deck.txt")
+        wait = False
+    
+    Test.Test_go(Deck, i, handsize) # i = number of itterations
 
-# Start simulation #1
-Test1 = classes.Test()
-Test1.Start_test(Deck)
-Test1.Test_go(i = 10000, handsize = 7) # Test object, number of itterations, handsize
+    print(Test)
+    pd.Series(Test.poison).value_counts().sort_index().plot(kind='bar')
+    plt.show()
 
-# Printing the results of the test. 
-print(Test1)
-pd.Series(Test1.poison).value_counts().sort_index().plot(kind='bar')
-plt.show()
+    Start(True, Test, Deck)
 
+if __name__ == "__main__":
+
+    Deck = Get_Deck("Deck.txt")
+    Test = classes.Test()
+    Start(True, Test, Deck)
 
 

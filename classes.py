@@ -3,22 +3,22 @@ import converter
 
 class Game:
     def __init__(self):
-        self.elf = bool()
-        self.dmg_1 = int
-        self.dmg_2 = int
-        self.dmg_2_free = int
-        self.dmg_2_Groundswell = int
-        self.dmg_3 = int
-        self.dmg_4 = int
-        self.scale_up = bool
-        self.assault_strobe = bool
-        self.doublestrike = bool
-        self.t2_damage = int 
-        self.hex = int
-        self.g_mana = int
-        self.u_mana = int
-        self.r_mana = int
-        self.total_mana = int
+        self.elf: bool = False
+        self.dmg_1: int = 0
+        self.dmg_2: int = 0
+        self.dmg_2_free: int = 0
+        self.dmg_2_Groundswell: int = 0
+        self.dmg_3: int = 0
+        self.dmg_4: int = 0
+        self.scale_up: bool = False
+        self.assault_strobe: bool = False
+        self.doublestrike: bool = False
+        self.t2_damage: int = 0
+        self.hex: int = 0
+        self.g_mana: int = 0
+        self.u_mana: int = 0
+        self.r_mana: int = 0
+        self.total_mana: int = 0
 
     def __str__(self):
         return f"""
@@ -77,7 +77,8 @@ class Test:
                 """
 
 
-    def Start_test(self, deck):
+    def Test_go(self, deck, i, handsize):
+
         self.deck = deck
         self.games=0
         self.win=0
@@ -85,8 +86,6 @@ class Test:
         self.poison = []
         self.manascrew = 0
         self.pumpscrew = 0
-
-    def Test_go(self, i, handsize):
 
         Current_game = Game()
 
