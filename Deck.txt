@@ -1,9 +1,9 @@
-4 Stomping Ground
-4 Grove of the Burnwillows
-4 Karplusan Forest
+4 Botanical Sanctum
+4 Breeding Pool
+4 Waterlogged Grove
 4 Misty Rainforest
-3 Windswept Heath
-1 Wooded Foothills
+4 Windswept Heath
+4 Wooded Foothills
 4 Glistener Elf
 4 Scale Up
 4 Mutagenic Growth
@@ -13,13 +13,3 @@
 4 Giantic Growth
 4 Giantic Growth
 4 Giantic Growth
-
-
-1 Collector Ouphe
-2 Endurance
-3 Force of Vigor
-1 Mystical Dispute
-2 Spell Pierce
-3 Veil of Summer
-1 Viridian Corrupter
-2 Wild Defiance

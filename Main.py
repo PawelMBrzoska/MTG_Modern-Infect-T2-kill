@@ -7,6 +7,7 @@ import converter
 import classes
 
 #Setting directory
+
 os.chdir(os.path.dirname(sys.argv[0]))
 
 def Get_Deck(file):
@@ -45,7 +46,7 @@ def Start(wait, Test, Deck):
     pd.Series(Test.poison).value_counts().sort_index().plot(kind='bar')
     plt.show()
 
-    Start(True, Test, Deck)
+    # Start(True, Test, Deck)
 
 if __name__ == "__main__":
 

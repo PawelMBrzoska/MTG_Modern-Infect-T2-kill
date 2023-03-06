@@ -122,8 +122,6 @@ def Converter(card, game):
     return(game)
 
 
-
-
 def Get_Damage(game):
 
     if game.total_mana > 1:
