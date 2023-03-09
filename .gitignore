@@ -155,4 +155,7 @@ cython_debug/
 * .ipynb
 
 # Bash files
-.bat
+*.bat
+
+# Working files
+*.png
