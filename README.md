@@ -20,3 +20,9 @@ First of all you need pandas for data processing. Easiest way is going for pip i
 The script is easy and strightforward. It takes the decklist from Deck.txt. The format is the same as in the mtg goldfish so you can just copy-paste the imported decklist. Changing it manually is also OK since most of the cards necessary for T2 are already scripted (see converter.py). Anyway look up for typos. 
 
 If you want to add cards see converter.py.
+
+# Changelog
+
+- 1.0 Working app
+- 1.1 Implementation of double strike
+- 1.2 Upgraded engine 
