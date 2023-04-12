@@ -1,4 +1,3 @@
-# Main of MTG Modern Infect T2 kill chance calculator
 import pandas as pd
 import matplotlib.pyplot as plt
 from tkinter import *
@@ -14,28 +13,19 @@ os.chdir(os.path.dirname(sys.argv[0]))
 
 
 def Start(Test):
-    #while wait == True:
-    #    try:
-    #        i = int(input("How many itterations you want to make during the test? (Suggesting: 10.000)"))
-    #    except ValueError:
-    #        print("Itteration number have to be a positive whole number.")
-    #        continue
-    #    
-    #    try:
-    #        handsize = int(input("How many cards in hand? (Suggesting: 7)"))
-    #    except ValueError:
-    #        print("Card number in hand have to be a positive whole number.")
-    #        continue
 
     def Normal():
         Deck = Get_Deck()
-        i = 10000 # number of itterations -> make it setable in next version
-        handsize = 7 
-        Test.Test_go(Deck, i, handsize) 
-        print(Test)
-        pd.Series(Test.poison).value_counts().sort_index().plot(kind='bar')
-        plt.show()  
-
+        try: 
+            i = int(Iterations_textbox.get("1.0", "end-1c"))
+            handsize = int(Handsize_textbox.get("1.0", "end-1c"))
+            Test.Test_go(Deck, i, handsize) 
+            print(Test)
+            pd.Series(Test.poison).value_counts().sort_index().plot(kind='bar')
+            plt.show() 
+        except ValueError:
+            print("Simulation stoped. Iterations number and handsize have to be numbers.")
+         
     def Save_deck():
         text = Deck_textbox.get("1.0", "end-1c")
         with open("Deck.txt", "w") as file:
@@ -70,12 +60,12 @@ def Start(Test):
     Deck_textbox.grid(column=1, row=2, rowspan=11) # Eddit the rowspan to line up with buttons
     Deck_textbox.insert(END, open("Deck.txt").read())
 
-    Label(frm, text="Iterations number").grid(column=2, row=2)
+    Label(frm, text="Iterations number:").grid(column=2, row=2)
     Iterations_textbox = Text(frm, height=1, width=8)
     Iterations_textbox.grid(column=2, row=3) 
     Iterations_textbox.insert(END, "10000")
 
-    Label(frm, text="Handsize").grid(column=2, row=4)
+    Label(frm, text="Handsize:").grid(column=2, row=4)
     Handsize_textbox = Text(frm, height=1, width=3)
     Handsize_textbox.grid(column=2, row=5) 
     Handsize_textbox.insert(END, "7")
