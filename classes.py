@@ -63,6 +63,7 @@ class Test:
         self.poison = []
         self.manascrew = int
         self.pumpscrew = int
+        self.window: Tk()
 
     def __str__(self):
         ratio_win = (self.win/self.games)*100
