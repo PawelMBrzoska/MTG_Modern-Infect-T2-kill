@@ -62,13 +62,23 @@ def Start(Test):
 
     Label(frm, text="The Deck").grid(column=1, row=1)
 
-    Button(frm, text="RUN 10k with 7 cards in hand", command=Normal).grid(column=2, row=2)
+    Button(frm, text="Run the simulation", command=Normal).grid(column=2, row=6)
     Button(frm, text="Quit", command=Test.window.destroy).grid(column=2, row=12)
-    Button(frm, text="Save the deck", command=Save_deck).grid(column=2, row=3)
+    Button(frm, text="Save the deck", command=Save_deck).grid(column=2, row=7)
 
     Deck_textbox = Text(frm, height=18, width=28)
     Deck_textbox.grid(column=1, row=2, rowspan=11) # Eddit the rowspan to line up with buttons
     Deck_textbox.insert(END, open("Deck.txt").read())
+
+    Label(frm, text="Iterations number").grid(column=2, row=2)
+    Iterations_textbox = Text(frm, height=1, width=8)
+    Iterations_textbox.grid(column=2, row=3) 
+    Iterations_textbox.insert(END, "10000")
+
+    Label(frm, text="Handsize").grid(column=2, row=4)
+    Handsize_textbox = Text(frm, height=1, width=3)
+    Handsize_textbox.grid(column=2, row=5) 
+    Handsize_textbox.insert(END, "7")
 
     Test.window.mainloop()
 
