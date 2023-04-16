@@ -14,17 +14,17 @@ os.chdir(os.path.dirname(sys.argv[0]))
 
 def Start(Test):
 
-    def Normal():
+    def Run():
         Deck = Get_Deck()
         try: 
-            i = int(Iterations_textbox.get("1.0", "end-1c"))
+            i = int(Iterations_textbox.get("1.0", "end-1c")) # this .get("1.0", "end-1c") means from the beginning to end
             handsize = int(Handsize_textbox.get("1.0", "end-1c"))
             Test.Test_go(Deck, i, handsize) 
             print(Test)
             pd.Series(Test.poison).value_counts().sort_index().plot(kind='bar')
             plt.show() 
         except ValueError:
-            print("Simulation stoped. Iterations number and handsize have to be numbers.")
+            print("Simulation broke. Iterations number and handsize have to be numbers.")
          
     def Save_deck():
         text = Deck_textbox.get("1.0", "end-1c")
@@ -44,20 +44,22 @@ def Start(Test):
                     deck.append(line[2:])
             else:
                 break
-        #Saving is as a list to pass it to convertet
+        #Saving as a list to pass it to convertet
         return(deck)
 
-    frm = ttk.Frame(Test.window, padding=10)
+    frm = ttk.Frame(Test.window, padding=10) #Creating the GUI frame
     frm.grid()
+
+    #Creating stuff and placing it on the frame 
 
     Label(frm, text="The Deck").grid(column=1, row=1)
 
-    Button(frm, text="Run the simulation", command=Normal).grid(column=2, row=6)
+    Button(frm, text="Run the simulation", command=Run).grid(column=2, row=6)
     Button(frm, text="Quit", command=Test.window.destroy).grid(column=2, row=12)
     Button(frm, text="Save the deck", command=Save_deck).grid(column=2, row=7)
 
     Deck_textbox = Text(frm, height=18, width=28)
-    Deck_textbox.grid(column=1, row=2, rowspan=11) # Eddit the rowspan to line up with buttons
+    Deck_textbox.grid(column=1, row=2, rowspan=11) # Eddit the rowspan to line up with buttons!
     Deck_textbox.insert(END, open("Deck.txt").read())
 
     Label(frm, text="Iterations number:").grid(column=2, row=2)
@@ -70,6 +72,7 @@ def Start(Test):
     Handsize_textbox.grid(column=2, row=5) 
     Handsize_textbox.insert(END, "7")
 
+    # Running the mainloop
     Test.window.mainloop()
 
 if __name__ == "__main__":
