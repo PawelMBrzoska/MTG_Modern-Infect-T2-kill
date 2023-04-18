@@ -2,6 +2,10 @@ import random
 import converter
 
 class Game:
+    """
+    This is the game class which holds information for each simulated game. 
+    If you are greedy you could save each simulated game to check it manually later by saving this objects throughout simulation (e.g., at the beggining of the Game_reset() idk).
+    """
     def __init__(self):
         self.elf: bool = False
         self.dmg_1: int = 0
