@@ -26,3 +26,4 @@ If you want to add cards see converter.py.
 - 1.0 Working app
 - 1.1 Implementation of double strike
 - 1.2 Upgraded engine 
+- 1.3 Added GUI
